@@ -5,6 +5,7 @@ charset-normalizer==2.0.3
 Django==3.2.5
 django-adminlte3==0.1.6
 django-bootstrap4==3.0.1
+django-cors-headers==3.7.0
 django-localflavor==3.1
 djangorestframework==3.12.4
 idna==3.2
