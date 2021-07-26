@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adminlte3',
     'bootstrap4',
+    'localflavor',
+    'api',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +139,5 @@ LOGIN_URL = 'logar_usuario'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'api.Usuario'

@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
-@login_required
+# @login_required
 def cadastrar_usuario(request):
     if request.method == "POST":
         form_usuario = CadastroUsuarioForm(request.POST)
