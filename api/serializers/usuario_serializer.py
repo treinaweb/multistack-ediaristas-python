@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 
 from ..models import Usuario
 
@@ -26,3 +27,19 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'chave_pix',
             'foto_usuario'
         )
+
+
+    def validate_password(self, password):
+        password_confirmation = self.initial_data["password_confirmation"]
+        if password != password_confirmation:
+            raise serializers.ValidationError("Senhas não combinam")
+        return password
+
+
+    def create(self, validated_data):
+        validated_data['password'] = make_password(
+            validated_data.get('password')
+        )
+        validated_data.pop('password_confirmation', None)
+        usuario = Usuario.objects.create(**validated_data)
+        return usuario

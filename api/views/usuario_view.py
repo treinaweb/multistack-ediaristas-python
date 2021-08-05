@@ -9,4 +9,6 @@ class Usuario(APIView):
                                                             context={"request": request})
         if serializer_usuario.is_valid():
             usuario_criado = serializer_usuario.save()
-            return Response(usuario_criado)
+            serializer_usuario = usuario_serializer.UsuarioSerializer(usuario_criado)
+            return Response(serializer_usuario.data)
+        return Response(serializer_usuario.errors)
