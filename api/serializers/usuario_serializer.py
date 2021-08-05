@@ -1,3 +1,5 @@
+from datetime import date
+
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
@@ -34,6 +36,18 @@ class UsuarioSerializer(serializers.ModelSerializer):
         if password != password_confirmation:
             raise serializers.ValidationError("Senhas não combinam")
         return password
+
+
+    def validate_nascimento(self, nascimento):
+        data_atual = date.today()
+        idade = data_atual.year - nascimento.year - (
+            (data_atual.month, data_atual.day) < (nascimento.month, nascimento.day)
+        )
+        if idade < 18:
+            raise serializers.ValidationError("Usuário menor de idade")
+        if idade > 100:
+            raise serializers.ValidationError("Idade maior que a permitida")
+        return nascimento
 
 
     def create(self, validated_data):
