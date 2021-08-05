@@ -20,6 +20,6 @@ urlpatterns = [
 
     path('', inicio_view.Inicio.as_view(), name='inicio'),
 
-    path('/usuarios', usuario_view.Usuario.as_view(), name='usuario-list'),
+    path('usuarios', usuario_view.Usuario.as_view(), name='usuario-list'),
 
 ]
