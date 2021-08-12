@@ -55,5 +55,10 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.get('password')
         )
         validated_data.pop('password_confirmation', None)
-        usuario = Usuario.objects.create(**validated_data)
+        reputacao_geral = 2
+        if validated_data['tipo_usuario'] == 2:
+            reputacao_geral = Usuario.diarista_objects.reputacao_geral()['reputacao__avg']
+            if reputacao_geral is None:
+                reputacao_geral = 5
+        usuario = Usuario.objects.create(reputacao=reputacao_geral, **validated_data)
         return usuario
