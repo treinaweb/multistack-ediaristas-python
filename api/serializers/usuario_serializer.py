@@ -31,7 +31,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'chave_pix',
             'foto_usuario',
             'token'
-
         )
 
 
