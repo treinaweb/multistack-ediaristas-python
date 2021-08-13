@@ -6,6 +6,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import validate_image_file_extension
 from localflavor.br.models import BRCPFField
 from .managers import diarista_manager
+from django.contrib.auth.models import UserManager
+
 
 # Create your models here.
 
@@ -45,6 +47,7 @@ class Usuario(AbstractUser):
     REQUIRED_FIELDS = ('nome_completo', 'cpf', 'telefone', 'tipo_usuario', 'reputacao',
     'chave_pix', 'foto_documento', 'foto_usuario')
 
+    objects = UserManager()
     diarista_objects = diarista_manager.DiaristaManager()
 
 
