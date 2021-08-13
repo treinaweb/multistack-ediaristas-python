@@ -2,6 +2,7 @@ from datetime import date
 
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from ..models import Usuario
 
@@ -13,6 +14,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
     required=False)
     password = serializers.CharField(write_only=True)
     foto_documento = serializers.ImageField(write_only=True, required=True)
+    token = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Usuario
@@ -27,8 +29,19 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'password_confirmation',
             'email',
             'chave_pix',
-            'foto_usuario'
+            'foto_usuario',
+            'token'
+
         )
+
+
+    def get_token(self, user):
+        tokens = RefreshToken.for_user(user)
+        data = {
+            "refresh": str(tokens),
+            "access": str(tokens.access_token)
+        }
+        return data
 
 
     def validate_password(self, password):
