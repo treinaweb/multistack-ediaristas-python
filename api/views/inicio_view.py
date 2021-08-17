@@ -12,5 +12,9 @@ class Inicio(APIView):
         links.add_get('endereco_cep', reverse('endereco-cep-list'))
         links.add_get('diaristas_localidade', reverse('diaristas-localidades-list'))
         links.add_get('verificar_disponibilidade_atendimento', 
-        reverse('disponibilidade-atendimento-cidade-list'))
+        reverse('disponibilidade-atendimento-cidade-list')),
+        links.add_post('cadastrar_usuario', reverse('usuario-list')),
+        links.add_post('login', reverse('token_obtain_pair')),
+        links.add_post('logout', reverse('logout')),
+        links.add_get('usuario_logado', reverse('me-list')),
         return Response({"links": links.to_array()}, status=status_http.HTTP_200_OK)
