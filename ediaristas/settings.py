@@ -132,6 +132,14 @@ DATABASES = {
     }
 }
 
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'postmaster@sandbox9c7e9a9d1851451baebcb9b25d70ef93.mailgun.org'
+EMAIL_HOST_PASSWORD = '2b3a3da2569282dc185e3e222e4fa6d9-9776af14-45c1b716'
+EMAIL_USE_TLS = True
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
