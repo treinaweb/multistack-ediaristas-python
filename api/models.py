@@ -92,7 +92,7 @@ class Diaria(models.Model):
     on_delete=models.DO_NOTHING, related_name='diarista')
     servico = models.ForeignKey(Servico, null=False, blank=False, 
     on_delete=models.DO_NOTHING)
-    candidatos = models.ManyToManyField(Usuario, blank=True, related_name='candidatos')
+    candidatas = models.ManyToManyField(Usuario, blank=True, related_name='candidatas')
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
