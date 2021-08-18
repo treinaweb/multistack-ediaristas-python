@@ -64,7 +64,7 @@ class Diaria(models.Model):
         (7, "TRANSFERIDO")
     )
 
-    data_atendimento = models.DateField(null=False, blank=False)
+    data_atendimento = models.DateTimeField(null=False, blank=False)
     tempo_atendimento = models.IntegerField(null=False, blank=False)
     status = models.IntegerField(null=False, blank=False, choices=STATUS_DIARIA_CHOICES,
     default=1)
@@ -73,7 +73,7 @@ class Diaria(models.Model):
     logradouro = models.CharField(max_length=60, null=False, blank=False)
     numero = models.CharField(max_length=10, null=False, blank=False)
     bairro = models.CharField(max_length=30, null=False, blank=False)
-    complemento = models.CharField(max_length=100, null=False, blank=False)
+    complemento = models.CharField(max_length=100, null=False, blank=True)
     cep = models.CharField(max_length=10, null=False, blank=False)
     cidade = models.CharField(max_length=30, null=False, blank=False)
     estado = models.CharField(max_length=2, null=False, blank=False)
