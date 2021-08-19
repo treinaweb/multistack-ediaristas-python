@@ -1,6 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 from ..models import Diaria, Usuario
+from administracao.services import servico_service
 
 class UsuarioDiariaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,11 +11,15 @@ class UsuarioDiariaSerializer(serializers.ModelSerializer):
 
 class DiariaSerializer(serializers.ModelSerializer):
     cliente = UsuarioDiariaSerializer(read_only=True)
+    valor_comissao = serializers.DecimalField(read_only=True, max_digits=5, decimal_places=2)
     class Meta:
         model = Diaria
         fields = '__all__'
 
     def create(self, validated_data):
-        diaria = Diaria.objects.create(cliente_id=self.context['request'].user.id,
+        servico = servico_service.listar_servico_id(validated_data["servico"].id)
+        valor_comissao = validated_data["preco"] * (servico.porcentagem_comissao / 100)
+        diaria = Diaria.objects.create(valor_comissao=valor_comissao,
+        cliente_id=self.context['request'].user.id,
         **validated_data)
         return diaria
