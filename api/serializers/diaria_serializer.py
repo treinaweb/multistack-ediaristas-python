@@ -23,3 +23,21 @@ class DiariaSerializer(serializers.ModelSerializer):
         cliente_id=self.context['request'].user.id,
         **validated_data)
         return diaria
+
+    def validate_preco(self, preco):
+        servico = servico_service.listar_servico_id(self.initial_data["servico"])
+        if servico is None:
+            raise serializers.ValidationError("Serviço não existe")
+        valor_total = 0
+        valor_total += servico.valor_quarto * self.initial_data["quantidade_quartos"]
+        valor_total += servico.valor_sala * self.initial_data["quantidade_salas"]
+        valor_total += servico.valor_banheiro * self.initial_data["quantidade_banheiros"]
+        valor_total += servico.valor_cozinha * self.initial_data["quantidade_cozinhas"]
+        valor_total += servico.valor_quintal * self.initial_data["quantidade_quintais"]
+        valor_total += servico.valor_outros * self.initial_data["quantidade_outros"]
+        if preco == valor_total or preco == servico.valor_minimo:
+            if valor_total >= servico.valor_minimo:
+                return preco
+            return servico.valor_minimo
+        raise serializers.ValidationError("Valores não correspondem")
+
