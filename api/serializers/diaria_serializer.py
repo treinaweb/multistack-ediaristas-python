@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from rest_framework import serializers
 from ..models import Diaria, Usuario
 from administracao.services import servico_service
+from ..services.cidades_atendimento_service import verificar_disponibilidade_cidade
 
 class UsuarioDiariaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,6 +25,11 @@ class DiariaSerializer(serializers.ModelSerializer):
         cliente_id=self.context['request'].user.id,
         **validated_data)
         return diaria
+
+    def validate(self, attrs):
+        if not verificar_disponibilidade_cidade(attrs['cep']):
+            raise serializers.ValidationError("Não há diaristas para o CEP informado")
+        return attrs
 
     def validate_preco(self, preco):
         servico = servico_service.listar_servico_id(self.initial_data["servico"])
