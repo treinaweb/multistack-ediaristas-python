@@ -41,3 +41,19 @@ class DiariaSerializer(serializers.ModelSerializer):
             return servico.valor_minimo
         raise serializers.ValidationError("Valores não correspondem")
 
+    
+    def validate_tempo_atendimento(self, tempo_atendimento):
+        servico = servico_service.listar_servico_id(self.initial_data["servico"])
+        if servico is None:
+            raise serializers.ValidationError("Serviço não existe")
+        horas_total = 0
+        horas_total += servico.horas_quarto * self.initial_data["quantidade_quartos"]
+        horas_total += servico.horas_sala * self.initial_data["quantidade_salas"]
+        horas_total += servico.horas_banheiro * self.initial_data["quantidade_banheiros"]
+        horas_total += servico.horas_cozinha * self.initial_data["quantidade_cozinhas"]
+        horas_total += servico.horas_quintal * self.initial_data["quantidade_quintais"]
+        horas_total += servico.horas_outros * self.initial_data["quantidade_outros"]
+        if tempo_atendimento != horas_total:
+            raise serializers.ValidationError("Valores não correspondem")
+        return tempo_atendimento
+
