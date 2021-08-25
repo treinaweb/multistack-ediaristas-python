@@ -106,3 +106,13 @@ class CidadesAtendimento(models.Model):
     estado = models.CharField(max_length=2, null=False, blank=False)
     usuario = models.ManyToManyField(Usuario, related_name='cidades_atendidas')
 
+
+class Pagamento(models.Model):
+    status = models.CharField(max_length=20, null=False, blank=False)
+    valor = models.DecimalField(null=False, blank=False, 
+    decimal_places=2, max_digits=5)
+    transacao_id = models.CharField(max_length=50, null=False, blank=False)
+    diaria = models.ForeignKey(Diaria, null=False, blank=False, on_delete=models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
