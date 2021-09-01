@@ -1,6 +1,8 @@
+from datetime import time
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import serializers
 from ..models import Diaria, Usuario
 from administracao.services import servico_service
@@ -80,6 +82,9 @@ class DiariaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Horário de início não pode ser menor que 6")
         if (data_atendimento.hour + self.initial_data["tempo_atendimento"]) > 22:
             raise serializers.ValidationError("O horário de atendimento não pode passar das 22:00")
+        if data_atendimento <= (timezone.now() + timezone.timedelta(hours=48)):
+            raise serializers.ValidationError("A data de atendimento não pode ser menor \
+que 48h antes da data atual")
         return data_atendimento
 
     def get_links(self, obj):
