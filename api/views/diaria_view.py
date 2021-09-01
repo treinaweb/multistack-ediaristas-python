@@ -4,9 +4,14 @@ from rest_framework.response import Response
 from rest_framework import status as status_http
 from rest_framework import permissions
 from rest_framework import serializers
+from ..services.diaria_service import listar_diarias_usuario
 
 class Diaria(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, format=None):
+        diarias = listar_diarias_usuario(request.user.id)
+        print(diarias)
 
     def post(self, request, format=None):
         serializer_diaria = diaria_serializer.DiariaSerializer(data=request.data,
