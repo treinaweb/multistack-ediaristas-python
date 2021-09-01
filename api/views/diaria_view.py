@@ -5,6 +5,7 @@ from rest_framework import status as status_http
 from rest_framework import permissions
 from rest_framework import serializers
 from ..services.diaria_service import listar_diarias_usuario, listar_diaria_id
+from ..permissions import dono_permission
 
 class Diaria(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
@@ -28,8 +29,11 @@ class Diaria(APIView):
 
 
 class DiariaID(APIView):
+    permission_classes = [dono_permission.DonoPermission, ]
+
     def get(self, request, diaria_id, format=None):
         diaria = listar_diaria_id(diaria_id)
+        self.check_object_permissions(self.request, diaria)
         serializer_diaria = diaria_serializer.DiariaSerializer(diaria, 
         context={'request': request})
         return Response(serializer_diaria.data, status=status_http.HTTP_200_OK)
