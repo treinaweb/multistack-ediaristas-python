@@ -89,6 +89,8 @@ class DiariaSerializer(serializers.ModelSerializer):
             if usuario.tipo_usuario == 1:
                 links.add_post('pagar_diaria', reverse('pagamento-diaria-list', 
                 kwargs={'diaria_id': obj.id}))
+        else:
+            links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
         return links.to_array()
         
         
