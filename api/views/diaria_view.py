@@ -11,7 +11,10 @@ class Diaria(APIView):
 
     def get(self, request, format=None):
         diarias = listar_diarias_usuario(request.user.id)
-        print(diarias)
+        serializer_diaria = diaria_serializer.DiariaSerializer(diarias, many=True,
+        context={'request': request})
+        return Response(serializer_diaria.data, status=status_http.HTTP_200_OK)
+
 
     def post(self, request, format=None):
         serializer_diaria = diaria_serializer.DiariaSerializer(data=request.data,
