@@ -15,6 +15,6 @@ class Inicio(APIView):
         reverse('disponibilidade-atendimento-cidade-list')),
         links.add_post('cadastrar_usuario', reverse('usuario-list')),
         links.add_post('login', reverse('token_obtain_pair')),
-        links.add_post('logout', reverse('logout')),
+        links.add_post('logout', reverse('logout-list')),
         links.add_get('usuario_logado', reverse('me-list')),
         return Response({"links": links.to_array()}, status=status_http.HTTP_200_OK)

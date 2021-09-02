@@ -36,6 +36,11 @@ class DiariaSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if not verificar_disponibilidade_cidade(attrs['cep']):
             raise serializers.ValidationError("Não há diaristas para o CEP informado")
+        qtd_comodos = attrs['quantidade_quartos'] + attrs['quantidade_salas'] + \
+            attrs['quantidade_cozinhas'] + attrs['quantidade_banheiros'] + \
+            attrs['quantidade_outros']
+        if qtd_comodos == 0:
+            raise serializers.ValidationError("A diária deve ter, ao menos, 1 cômodo")
         return attrs
 
 
