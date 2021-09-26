@@ -53,6 +53,18 @@ class Usuario(AbstractUser):
     diarista_objects = diarista_manager.DiaristaManager()
 
 
+class EnderecoDiarista(models.Model):
+    logradouro = models.CharField(max_length=60, null=True, blank=False)
+    numero = models.CharField(max_length=10, null=True, blank=True)
+    bairro = models.CharField(max_length=30, null=False, blank=False)
+    complemento = models.CharField(max_length=100, null=True, blank=True)
+    cep = models.CharField(max_length=10, null=False, blank=False)
+    cidade = models.CharField(max_length=30, null=False, blank=False)
+    estado = models.CharField(max_length=2, null=False, blank=False)
+    usuario = models.OneToOneField(Usuario, on_delete=models.DO_NOTHING, null=False, 
+    blank=False, related_name='endereco')
+
+
 class Diaria(models.Model):
     STATUS_DIARIA_CHOICES = (
         (1, "SEM_PAGAMENTO"),

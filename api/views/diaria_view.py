@@ -1,3 +1,4 @@
+from rest_framework import response
 from rest_framework.views import APIView
 from ..serializers import diaria_serializer
 from rest_framework.response import Response

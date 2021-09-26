@@ -51,6 +51,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
     def get_links(self, user):
         usuario = usuario_service.listar_usuario_email(user.email)
         links = Hateoas()
+        links.add_get('lista_diarias', reverse('diaria-list'))
         if usuario.tipo_usuario == 1:
             links.add_post('cadastrar_diaria', reverse('diaria-list'))
         return links.to_array()
