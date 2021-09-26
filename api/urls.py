@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (diaristas_localidade_view, endereco_cep_view, 
                     disponibilidade_atendimento_cidade,
                     servico_view, inicio_view, usuario_view, me_view,
-                    diaria_view, pagamento_diaria_view)
+                    diaria_view, pagamento_diaria_view, endereco_diarista_view)
 
 
 
@@ -22,6 +22,9 @@ urlpatterns = [
     path('', inicio_view.Inicio.as_view(), name='inicio'),
 
     path('usuarios', usuario_view.Usuario.as_view(), name='usuario-list'),
+
+    path('usuarios/enderecos', endereco_diarista_view.EnderecoDiarista.as_view(), 
+    name='endereco-diarista-detail'),
 
     path('me', me_view.Me.as_view(), name='me-list'),
 
