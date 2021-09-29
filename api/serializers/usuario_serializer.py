@@ -54,6 +54,9 @@ class UsuarioSerializer(serializers.ModelSerializer):
         links.add_get('lista_diarias', reverse('diaria-list'))
         if usuario.tipo_usuario == 1:
             links.add_post('cadastrar_diaria', reverse('diaria-list'))
+        else:
+            links.add_put('cadastrar_endereco', reverse('endereco-diarista-detail'))
+            links.add_put('relacionar_cidades', reverse('cidades-atendimento-diarista-detail'))
         return links.to_array()
 
 
