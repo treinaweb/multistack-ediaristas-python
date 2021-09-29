@@ -4,8 +4,10 @@ from rest_framework import status as status_http
 from ..serializers import (cidades_atendimento_diarista_serializer, 
 relacionar_cidade_diarista_serializer)
 from ..services import usuario_service, cidades_atendimento_service
+from ..permissions import diarista_permission
 
 class CidadesAtendimentoDiaristaID(APIView):
+    permission_classes = [diarista_permission.DiaristaPermission, ]
     def put(self, request, format=None):
         serializer_cidades_atendimento = relacionar_cidade_diarista_serializer\
             .RelacionarCidadeDiaristaSerializer(data=request.data)
