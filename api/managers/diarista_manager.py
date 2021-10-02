@@ -7,3 +7,6 @@ class DiaristaManager(models.Manager):
 
     def reputacao_geral(self):
         return self.get_queryset().all().aggregate(Avg('reputacao'))
+
+    def cidades_atendidas(self, diarista_id):
+        return self.get(id=diarista_id).cidades_atendidas.values('codigo_ibge')
