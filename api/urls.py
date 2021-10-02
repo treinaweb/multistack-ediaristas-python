@@ -3,7 +3,7 @@ from .views import (diaristas_localidade_view, endereco_cep_view,
                     disponibilidade_atendimento_cidade,
                     servico_view, inicio_view, usuario_view, me_view,
                     diaria_view, pagamento_diaria_view, endereco_diarista_view,
-                    cidades_atendimento_diarista_view)
+                    cidades_atendimento_diarista_view, oportunidade_view)
 
 
 
@@ -39,5 +39,7 @@ urlpatterns = [
     path('usuarios/cidades-atendidas', 
     cidades_atendimento_diarista_view.CidadesAtendimentoDiaristaID.as_view(),
     name='cidades-atendimento-diarista-detail'),
+
+    path('oportunidades', oportunidade_view.Oportunidade.as_view(), name='oportunidade-list')
 
 ]
