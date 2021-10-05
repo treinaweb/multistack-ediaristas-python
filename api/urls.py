@@ -3,7 +3,8 @@ from .views import (diaristas_localidade_view, endereco_cep_view,
                     disponibilidade_atendimento_cidade,
                     servico_view, inicio_view, usuario_view, me_view,
                     diaria_view, pagamento_diaria_view, endereco_diarista_view,
-                    cidades_atendimento_diarista_view, oportunidade_view)
+                    cidades_atendimento_diarista_view, oportunidade_view,
+                    candidatar_diarista_diaria_view)
 
 
 
@@ -32,6 +33,10 @@ urlpatterns = [
     path('diarias', diaria_view.Diaria.as_view(), name='diaria-list'),
 
     path('diarias/<int:diaria_id>', diaria_view.DiariaID.as_view(), name='diaria-detail'),
+
+    path('diarias/<int:diaria_id>/candidatar', 
+    candidatar_diarista_diaria_view.CandidatarDiaristaDiaria.as_view(),
+    name='candidatar-diarista-diaria-list'),
 
     path('diarias/<int:diaria_id>/pagamentos', pagamento_diaria_view.PagamentoDiaria.as_view(),
     name='pagamento-diaria-list'),
