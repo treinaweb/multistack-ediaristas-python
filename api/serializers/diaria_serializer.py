@@ -99,6 +99,11 @@ que 48h antes da data atual")
             if usuario.tipo_usuario == 1:
                 links.add_post('pagar_diaria', reverse('pagamento-diaria-list', 
                 kwargs={'diaria_id': obj.id}))
+        elif obj.status == 2:
+            links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
+            if usuario.tipo_usuario == 2:
+                links.add_post('candidatar_diaria', 
+                reverse('candidatar-diarista-diaria-list', kwargs={'diaria_id': obj.id}))
         else:
             links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
         return links.to_array()
