@@ -23,6 +23,6 @@ def calcular_indice_compatibilidade(diaria_id, diarista_id):
     diaria = listar_diaria_id(diaria_id)
     diarista = listar_usuario_id(diarista_id)
     reputacao_diarista = diarista.reputacao
-    endereco_diarista = listar_endereco_diarista(diarista_id)
+    # endereco_diarista = listar_endereco_diarista(diarista_id)
     distancia_diarista_diaria = 100 # depois implementar o método pra pegar a distancia
     return (reputacao_diarista - (distancia_diarista_diaria/10)) / 2

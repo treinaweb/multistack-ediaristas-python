@@ -1,6 +1,7 @@
 import datetime
 from ..models import Diaria, Usuario
 from rest_framework import serializers
+from .selecionar_diarista_service import selecionar_diarista_diaria
 
 def relacionar_candidata_diaria(diaria_id, diarista_id):
     diaria = Diaria.diaria_objects.diaristas_diaria(diaria_id)
@@ -13,7 +14,7 @@ def relacionar_candidata_diaria(diaria_id, diarista_id):
         diaria.candidatas.add(diarista)
     if diaria.candidatas__count == 2:
         diaria.candidatas.add(diarista)
-        # selecionar_diarista_diaria(diaria.id)
+        selecionar_diarista_diaria(diaria.id)
 
 
 def contratar_diarista_diaria(diaria, diarista_id):
