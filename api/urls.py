@@ -42,7 +42,7 @@ urlpatterns = [
     name='pagamento-diaria-list'),
 
     path('diarias/<int:diaria_id>/confirmar-presenca', 
-    confirmar_presenca_diarista_view.ConfirmarPresencaDiaristaID, 
+    confirmar_presenca_diarista_view.ConfirmarPresencaDiaristaID.as_view(), 
     name='confirmar-presenca-diaria-detail'),
 
     path('usuarios/cidades-atendidas', 

@@ -10,5 +10,5 @@ class ConfirmarPresencaDiaristaID(APIView):
     def patch(self, request, diaria_id, format=None):
         diaria = diaria_service.listar_diaria_id(diaria_id)
         self.check_object_permissions(self.request, diaria)
-        # implementar no service a lógica para confirmar a presenca
+        diaria_service.confirmar_presenca_diarista(diaria_id)
         return Response("Presença confirmada com sucesso", status=status_http.HTTP_200_OK)
