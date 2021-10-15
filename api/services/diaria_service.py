@@ -1,9 +1,17 @@
+import datetime
+import googlemaps
+import environ
+import os
+from pathlib import Path
+
 from rest_framework import serializers
 from ..models import Diaria
 from .usuario_service import listar_usuario_id
 from .endereco_diarista_service import listar_endereco_diarista
-import datetime
-import googlemaps
+
+env = environ.Env()
+
+env.read_env(env.str('ENV_PATH', './ediaristas/.env'))
 
 def listar_diaria_id(diaria_id):
     return Diaria.objects.get(id=diaria_id)
@@ -33,7 +41,7 @@ def calcular_indice_compatibilidade(diaria_id, diarista_id):
 
 
 def calcular_distancia_diaria_diarista(cep_diaria, cep_diarista):
-    gmaps = googlemaps.Client(key='AIzaSyBq4s9zZ5X6zBju0pe5HtsEO_S-2gy4sBs')
+    gmaps = googlemaps.Client(key=env('GOOGLE_API_KEY'))
     cep_formatado_diaria = cep_diaria[:5] + '-' + cep_diaria[5:]
     cep_formatado_diarista = cep_diarista[:5] + '-' + cep_diarista[5:]
     distancia = gmaps.distance_matrix(
