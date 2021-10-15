@@ -56,6 +56,13 @@ INSTALLED_APPS = [
     'django_q',
 ]
 
+Q_CLUSTER = {
+   'retry': 10,
+   'workers': 4,
+   'timeout': 5,
+   'orm': 'default',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

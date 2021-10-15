@@ -1,8 +1,6 @@
 import datetime
 import googlemaps
 import environ
-import os
-from pathlib import Path
 
 from rest_framework import serializers
 from ..models import Diaria
