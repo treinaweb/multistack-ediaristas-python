@@ -1,4 +1,5 @@
-from datetime import time
+from datetime import time, tzinfo, datetime
+from os import link
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -20,6 +21,7 @@ class DiariaSerializer(serializers.ModelSerializer):
     cliente = UsuarioDiariaSerializer(read_only=True)
     valor_comissao = serializers.DecimalField(read_only=True, max_digits=5, decimal_places=2)
     links = serializers.SerializerMethodField(required=False)
+    nome_servico = serializers.SerializerMethodField()
 
     class Meta:
         model = Diaria
@@ -32,6 +34,9 @@ class DiariaSerializer(serializers.ModelSerializer):
         cliente_id=self.context['request'].user.id,
         **validated_data)
         return diaria
+
+    def get_nome_servico(self, obj):
+        return obj.servico.nome
 
     def validate(self, attrs):
         if not verificar_disponibilidade_cidade(attrs['cep']):
@@ -95,6 +100,7 @@ que 48h antes da data atual")
     def get_links(self, obj):
         usuario = self.context['request'].user
         links = Hateoas()
+        data_atual = datetime.now()
         if obj.status == 1:
             if usuario.tipo_usuario == 1:
                 links.add_post('pagar_diaria', reverse('pagamento-diaria-list', 
@@ -104,6 +110,14 @@ que 48h antes da data atual")
             if usuario.tipo_usuario == 2:
                 links.add_post('candidatar_diaria', 
                 reverse('candidatar-diarista-diaria-list', kwargs={'diaria_id': obj.id}))
+        elif obj.status == 3:
+            links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
+            if usuario.tipo_usuario == 1:
+                data_atendimento = obj.data_atendimento.replace(tzinfo=None)
+                if data_atual >= data_atendimento:
+                    links.add_patch('confirmar_diarista', 
+                    reverse('confirmar-presenca-diaria-detail', 
+                    kwargs={'diaria_id': obj.id}))
         else:
             links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
         return links.to_array()
