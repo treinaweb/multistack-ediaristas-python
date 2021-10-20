@@ -9,6 +9,7 @@ from ..models import Diaria, Usuario
 from administracao.services import servico_service
 from ..services.cidades_atendimento_service import (verificar_disponibilidade_cidade, 
 buscar_cidade_ibge)
+from ..services.avaliacao_diaria_service import verificar_avaliacao_usuario
 from ..hateoas import Hateoas
 
 class UsuarioDiariaSerializer(serializers.ModelSerializer):
@@ -22,6 +23,7 @@ class DiariaSerializer(serializers.ModelSerializer):
     valor_comissao = serializers.DecimalField(read_only=True, max_digits=5, decimal_places=2)
     links = serializers.SerializerMethodField(required=False)
     nome_servico = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = Diaria
@@ -52,6 +54,12 @@ class DiariaSerializer(serializers.ModelSerializer):
     def validate_codigo_ibge(self, codigo_ibge):
         buscar_cidade_ibge(codigo_ibge)
         return codigo_ibge
+
+    def get_status(self, obj):
+        usuario = self.context['request'].user
+        if verificar_avaliacao_usuario(obj.id, usuario.id):
+            return 6
+        return obj.status
 
     def validate_preco(self, preco):
         servico = servico_service.listar_servico_id(self.initial_data["servico"])
@@ -118,6 +126,16 @@ que 48h antes da data atual")
                     links.add_patch('confirmar_diarista', 
                     reverse('confirmar-presenca-diaria-detail', 
                     kwargs={'diaria_id': obj.id}))
+        elif obj.status == 4:
+            avaliacoes_diaria = obj.avaliacao_diaria.all() or None
+            if avaliacoes_diaria is None:
+                links.add_patch('avaliar_diaria', reverse('avaliacao-diaria-detail',
+                kwargs={'diaria_id': obj.id}))
+            else:
+                for avaliacao in avaliacoes_diaria:
+                    if not usuario.id == avaliacao.avaliador.id:
+                        links.add_patch('avaliar_diaria', reverse('avaliacao-diaria-detail',
+                        kwargs={'diaria_id': obj.id}))
         else:
             links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
         return links.to_array()
