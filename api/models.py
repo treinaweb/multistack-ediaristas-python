@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import validate_image_file_extension
 from django.db.models.expressions import F
 from localflavor.br.models import BRCPFField
-from .managers import diarista_manager, diaria_manager
+from .managers import diarista_manager, diaria_manager, avaliacao_manager
 from django.contrib.auth.models import UserManager
 from administracao.models import Servico
 
@@ -142,3 +142,6 @@ class AvaliacaoDiaria(models.Model):
     related_name='avaliador')
     avaliado = models.ForeignKey(Usuario, null=False, blank=False, on_delete=models.CASCADE,
     related_name='avaliado')
+
+    objects = models.Manager()
+    avaliacao_objects = avaliacao_manager.AvaliacaoManager()

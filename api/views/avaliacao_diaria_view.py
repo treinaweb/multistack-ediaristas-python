@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from ..serializers import avaliacao_diaria_serializer
 from ..permissions import dono_permission
 from ..models import AvaliacaoDiaria
-from ..services import diaria_service, usuario_service
+from ..services import diaria_service, usuario_service, avaliacao_diaria_service
 
 
 class AvaliacaoDiariaID(APIView):
@@ -20,7 +20,7 @@ class AvaliacaoDiariaID(APIView):
         serializer_avaliacao_diaria = avaliacao_diaria_serializer.AvaliacaoDiariaSerializer(
             data=request.data
         )
-        # verificar se o usuário que está avaliando já não tinha avaliado anteriormente
+        avaliacao_diaria_service.verificar_avaliacao_usuario(diaria_id, usuario_logado.id)
         if serializer_avaliacao_diaria.is_valid():
             if usuario_logado.tipo_usuario == 1:
                 avaliado = diaria.diarista
@@ -28,7 +28,9 @@ class AvaliacaoDiariaID(APIView):
                 avaliado = diaria.cliente
             serializer_avaliacao_diaria.save(visibilidade=1, diaria=diaria, 
             avaliador=usuario_logado, avaliado=avaliado)
-            # atualizar a nota do usuário que está sendo avaliado
-            # verificar se os dois usuários avaliaram
-            # alterar o status da diária pra 6
-            # retornar os dados da avaliação
+            media_usuario = AvaliacaoDiaria.avaliacao_objects.reputacao_usuario(avaliado.id)
+            usuario_service.atualizar_reputacao_usuario(avaliado, media_usuario['nota__avg'])
+            if avaliacao_diaria_service.verificar_avaliacao(diaria_id) == 2:
+                diaria_service.atualizar_status_diaria(diaria_id, 6)
+            return Response(serializer_avaliacao_diaria.data, status=status_htttp.HTTP_201_CREATED)
+        return Response(serializer_avaliacao_diaria.errors, status=status_htttp.HTTP_400_BAD_REQUEST)
