@@ -3,6 +3,22 @@ from rest_framework import serializers
 from ..models import Diaria, Usuario
 from ..hateoas import Hateoas
 
+class AvaliacoesOportunidadeSerializer(serializers.BaseSerializer):
+    def to_representation(self):
+        return [
+            {
+                'descricao': 'teste',
+                'nota': 5,
+                'nome_avaliador': 'João',
+                'foto_avaliador': 'joao.png'
+            },
+            {
+                'descricao': 'teste',
+                'nota': 5,
+                'nome_avaliador': 'Maria',
+                'foto_avaliador': 'joao.png'
+            }
+        ]
 
 class ClienteOportunidadeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,6 +30,8 @@ class OportunidadeSerializer(serializers.ModelSerializer):
     nome_servico = serializers.SerializerMethodField()
     cliente = ClienteOportunidadeSerializer()
     links = serializers.SerializerMethodField()
+    avaliacoes_cliente = serializers.SerializerMethodField()
+
     class Meta:
         model = Diaria
         fields = '__all__'
@@ -21,6 +39,9 @@ class OportunidadeSerializer(serializers.ModelSerializer):
 
     def get_nome_servico(self, obj):
         return obj.servico.nome
+
+    def get_avaliacoes_cliente(self, obj):
+        return AvaliacoesOportunidadeSerializer().to_representation()
 
     def get_links(self, obj):
         usuario = self.context['request'].user
