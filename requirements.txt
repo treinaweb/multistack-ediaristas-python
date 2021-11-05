@@ -2,6 +2,7 @@ arrow==1.2.0
 asgiref==3.4.1
 beautifulsoup4==4.9.3
 blessed==1.19.0
+CacheControl==0.12.10
 certifi==2021.5.30
 charset-normalizer==2.0.3
 coreapi==2.3.3
@@ -22,9 +23,12 @@ idna==3.2
 inflection==0.5.1
 itypes==1.2.0
 Jinja2==3.0.1
+jsonpickle==0.9.6
 MarkupSafe==2.0.1
+msgpack==1.0.2
 mysqlclient==2.0.3
 packaging==21.0
+pagarme-python==5.0.1
 Pillow==8.3.1
 PyJWT==2.1.0
 pyparsing==2.4.7
