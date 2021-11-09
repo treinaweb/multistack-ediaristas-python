@@ -28,8 +28,8 @@ MarkupSafe==2.0.1
 msgpack==1.0.2
 mysqlclient==2.0.3
 packaging==21.0
-pagarme-python==5.0.1
-Pillow==8.3.1
+pagarme-python==4.0.1
+Pillow==8.3.2
 PyJWT==2.1.0
 pyparsing==2.4.7
 python-dateutil==2.8.2
@@ -41,7 +41,7 @@ ruamel.yaml==0.17.16
 ruamel.yaml.clib==0.2.6
 six==1.16.0
 soupsieve==2.2.1
-sqlparse==0.4.1
+sqlparse==0.4.2
 uritemplate==3.0.1
 urllib3==1.26.6
 wcwidth==0.2.5
