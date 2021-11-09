@@ -1,5 +1,8 @@
 import pagarme
 import environ
+import json
+
+from pagarme import transaction
 from ..models import Pagamento
 from .diaria_service import atualizar_status_diaria, listar_diaria_id
 
@@ -13,7 +16,7 @@ def realizar_pagamento(diaria, card_hash):
     diaria = listar_diaria_id(diaria.id)
     cliente = diaria.cliente
     params = {
-        "amount": diaria.preco * 100,
+        "amount": float(diaria.preco) * 100,
         "card_hash": card_hash,
         "customer": {
             "external_id": cliente.id,
@@ -32,12 +35,14 @@ def realizar_pagamento(diaria, card_hash):
             {
                 "id": diaria.id,
                 "title": "Diária e-diaristas",
-                "unit_price": diaria.preco,
+                "unit_price": float(diaria.preco) * 100,
                 "quantity": "1",
                 "tangible": False
             }
         ]
     }
+    transacao = pagarme.transaction.create(params)
+    print(transacao['status'])
     Pagamento.objects.create(status="pago",
     valor=diaria.preco, transacao_id="12a9daqwe",
     diaria=diaria)
