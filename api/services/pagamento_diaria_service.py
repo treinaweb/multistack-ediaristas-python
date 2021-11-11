@@ -62,8 +62,8 @@ def cancelar_pagamento(diaria_id, penalidade):
     diaria = listar_diaria_id(diaria_id)
     pagamento = Pagamento.objects.filter(diaria=diaria_id).get(status='pago')
     valor = (pagamento.valor / 2) if penalidade else pagamento.valor
-    cancelamento = pagarme.transaction.refund(pagamento.transacao_id, {"amount": valor})
-    if cancelamento['refunded_amount'] != valor:
+    cancelamento = pagarme.transaction.refund(pagamento.transacao_id, {"amount": float(valor * 100)})
+    if cancelamento['refunded_amount'] != float(valor * 100):
         raise serializers.ValidationError("Erro ao estornar o pagamento")
     return Pagamento.objects.create(status='cancelado', valor=valor, 
                                     transacao_id=pagamento.transacao_id, diaria=diaria)
