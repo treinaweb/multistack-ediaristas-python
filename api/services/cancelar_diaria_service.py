@@ -1,7 +1,7 @@
 import datetime
 
 from rest_framework import serializers
-from ..services import diaria_service, usuario_service
+from ..services import diaria_service, usuario_service, pagamento_diaria_service
 
 def cancelar_diaria(diaria_id, usuario_id):
     diaria = diaria_service.listar_diaria_id(diaria_id)
@@ -10,6 +10,14 @@ def cancelar_diaria(diaria_id, usuario_id):
         raise serializers.ValidationError("Esta diária não pode ser cancelada")
     verificar_data_cancelamento(diaria.data_atendimento)
     sem_penalidade = verificar_penalizacao_cancelamento(diaria.data_atendimento)
+    if sem_penalidade:
+        pagamento_diaria_service.cancelar_pagamento(diaria_id, False)
+        return
+    if usuario.tipo_usuario == 1:
+        pagamento_diaria_service.cancelar_pagamento(diaria_id, True)
+        return
+    # penalizar o usuário diarista com uma avaliação nota 0
+    pagamento_diaria_service.cancelar_pagamento(diaria_id, False)
     
 
 def verificar_penalizacao_cancelamento(data_diaria):
