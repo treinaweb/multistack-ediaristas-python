@@ -1,7 +1,8 @@
 import datetime
 
 from rest_framework import serializers
-from ..services import diaria_service, usuario_service, pagamento_diaria_service
+from ..services import (diaria_service, usuario_service, pagamento_diaria_service, 
+                        diarista_service)
 
 def cancelar_diaria(diaria_id, usuario_id):
     diaria = diaria_service.listar_diaria_id(diaria_id)
@@ -16,7 +17,7 @@ def cancelar_diaria(diaria_id, usuario_id):
     if usuario.tipo_usuario == 1:
         pagamento_diaria_service.cancelar_pagamento(diaria_id, True)
         return
-    # penalizar o usuário diarista com uma avaliação nota 0
+    diarista_service.penalizar_diarista(usuario, diaria)
     pagamento_diaria_service.cancelar_pagamento(diaria_id, False)
     
 
