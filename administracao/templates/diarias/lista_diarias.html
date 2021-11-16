@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Listagem de diárias
+{% endblock title %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de diárias</h3>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Data de atendimento</th>
+                    <th>Status</th>
+                    <th>Tipo de serviço</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for diaria in diarias %}
+                    <tr>
+                        <td>{{diaria.id}}</td>
+                        <td>{{diaria.data_atendimento}}</td>
+                        <td>{{diaria.get_status_display}}</td>
+                        <td>{{diaria.servico.nome}}</td>
+                        <td>{{diaria.preco}}</td>
+                        <td>
+                            <a href="#">Pagamento transferido</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock content %}
