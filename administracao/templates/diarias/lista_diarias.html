@@ -30,7 +30,9 @@ Listagem de diárias
                         <td>{{diaria.servico.nome}}</td>
                         <td>{{diaria.preco}}</td>
                         <td>
-                            <a href="#">Pagamento transferido</a>
+                            {% if diaria.status == 6 %}
+                            <a href="#">Transferir pagamento</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
