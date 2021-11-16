@@ -115,11 +115,19 @@ que 48h antes da data atual")
                 kwargs={'diaria_id': obj.id}))
         elif obj.status == 2:
             links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
+            data_atendimento = obj.data_atendimento.replace(tzinfo=None)
+            if data_atual < data_atendimento:
+                links.add_patch('cancelar_diaria', reverse('cancelar-diaria-detail',
+                kwargs={'diaria_id': obj.id}))
             if usuario.tipo_usuario == 2:
                 links.add_post('candidatar_diaria', 
                 reverse('candidatar-diarista-diaria-list', kwargs={'diaria_id': obj.id}))
         elif obj.status == 3:
             links.add_get('self', reverse('diaria-detail', kwargs={'diaria_id': obj.id}))
+            data_atendimento = obj.data_atendimento.replace(tzinfo=None)
+            if data_atual < data_atendimento:
+                links.add_patch('cancelar_diaria', reverse('cancelar-diaria-detail',
+                kwargs={'diaria_id': obj.id}))
             if usuario.tipo_usuario == 1:
                 data_atendimento = obj.data_atendimento.replace(tzinfo=None)
                 if data_atual >= data_atendimento:
