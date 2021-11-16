@@ -6,6 +6,8 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('diarias/listar', diaria_views.lista_diarias, name='listar_diarias'),
+    path('diarias/<int:diaria_id>', diaria_views.transferir_pagamento_diaria,
+    name='transferir_pagamento'),
     path('servicos/cadastrar', servico_views.cadastrar_servico, name='cadastrar_servico'),
     path('servicos/listar', servico_views.listar_servicos, name='listar_servicos'),
     path('servicos/editar/<int:id>', servico_views.editar_servico, name='editar_servico'),

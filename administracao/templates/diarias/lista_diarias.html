@@ -31,7 +31,9 @@ Listagem de diárias
                         <td>{{diaria.preco}}</td>
                         <td>
                             {% if diaria.status == 6 %}
-                            <a href="#">Transferir pagamento</a>
+                            <a href="{% url 'transferir_pagamento' diaria.id %}">
+                                Transferir pagamento
+                            </a>
                             {% endif %}
                         </td>
                     </tr>
