@@ -9,6 +9,23 @@ Listagem de diárias
     <div class="card-header">
         <h3 class="card-title">Lista de diárias</h3>
     </div>
+    <br>
+    <div class="btn-toolbar">
+        <div class="btn-group mr-2">
+            <a href="{% url 'listar_diarias' %}?status=pendentes">
+                <button class="btn btn-default" id="P">Pendentes</button>
+            </a>
+            <a href="{% url 'listar_diarias' %}?status=nao-avaliadas">
+                <button class="btn btn-default" id="N">Não Avaliadas</button>
+            </a>
+            <a href="{% url 'listar_diarias' %}?status=concluidas">
+                <button class="btn btn-default" id="C">Concluídas</button>
+            </a>
+            <a href="{% url 'listar_diarias' %}?status=canceladas">
+                <button class="btn btn-default" id="C">Canceladas</button>
+            </a>
+        </div>
+    </div>
     <div class="card-body p-0">
         <table class="table table-condensed">
             <thead>
