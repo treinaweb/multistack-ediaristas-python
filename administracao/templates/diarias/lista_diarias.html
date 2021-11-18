@@ -25,6 +25,12 @@ Listagem de diárias
                 <button class="btn btn-default" id="C">Canceladas</button>
             </a>
         </div>
+        <div>
+            <form method="GET">
+                <input type="text" class="btn btn-default" name="daterange">
+                <input type="submit" class="btn btn-default" value="Filtrar">
+            </form>
+        </div>
     </div>
     <div class="card-body p-0">
         <table class="table table-condensed">
@@ -51,6 +57,8 @@ Listagem de diárias
                             <a href="{% url 'transferir_pagamento' diaria.id %}">
                                 Transferir pagamento
                             </a>
+                            {% else %}
+                            <a href="#">Transferencia indisponível</a>
                             {% endif %}
                         </td>
                     </tr>
