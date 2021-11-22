@@ -135,7 +135,7 @@ que 48h antes da data atual")
                     reverse('confirmar-presenca-diaria-detail', 
                     kwargs={'diaria_id': obj.id}))
         elif obj.status == 4:
-            avaliacoes_diaria = obj.avaliacao_diaria.all() or None
+            avaliacoes_diaria = obj.avaliacao_diaria.filter(avaliador__isnull=False) or None
             if avaliacoes_diaria is None:
                 links.add_patch('avaliar_diaria', reverse('avaliacao-diaria-detail',
                 kwargs={'diaria_id': obj.id}))
