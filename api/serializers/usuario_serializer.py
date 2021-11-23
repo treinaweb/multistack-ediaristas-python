@@ -52,13 +52,18 @@ class UsuarioSerializer(serializers.ModelSerializer):
         usuario = usuario_service.listar_usuario_email(user.email)
         links = Hateoas()
         links.add_get('lista_diarias', reverse('diaria-list'))
+        links.add_put('editar_usuario', reverse('usuario-list'))
+        links.add_post('alterar_foto_usuario', reverse('foto-usuario-list'))
         if usuario.tipo_usuario == 1:
             links.add_post('cadastrar_diaria', reverse('diaria-list'))
         else:
             links.add_put('cadastrar_endereco', reverse('endereco-diarista-detail'))
             links.add_put('relacionar_cidades', reverse('cidades-atendimento-diarista-detail'))
-            links.add_get('lista_oportunidades', reverse('oportunidade-list')),
+            links.add_get('lista_oportunidades', reverse('oportunidade-list'))
             links.add_get('lista_pagamentos', reverse('pagamento-list'))
+            links.add_put('editar_endereco', reverse('endereco-diarista-detail'))
+            links.add_get('listar_endereco', reverse('endereco-diarista-detail'))
+            links.add_get('cidades_atendidas', reverse('cidades-atendimento-diarista-detail'))
         return links.to_array()
 
 
