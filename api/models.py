@@ -40,9 +40,9 @@ class Usuario(AbstractUser):
     tipo_usuario = models.IntegerField(choices=TIPO_USUARIO_CHOICES, null=True, blank=False)
     reputacao = models.FloatField(null=True, blank=False, default=5)
     chave_pix = models.CharField(null=True, blank=True, max_length=255)
-    foto_documento = models.ImageField(null=True, upload_to=nome_arquivo_foto, 
+    foto_documento = models.ImageField(null=True, upload_to=nome_arquivo_documento, 
     validators=[validate_image_file_extension, ])
-    foto_usuario = models.ImageField(null=True, upload_to=nome_arquivo_documento, 
+    foto_usuario = models.ImageField(null=True, upload_to=nome_arquivo_foto, 
     validators=[validate_image_file_extension, ])
 
     USERNAME_FIELD = 'email'
