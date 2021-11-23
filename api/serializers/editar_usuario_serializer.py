@@ -23,7 +23,7 @@ class EditarUsuarioSerializer(serializers.ModelSerializer):
         password_confirmation = self.initial_data["password_confirmation"]
         if new_password != password_confirmation:
             raise serializers.ValidationError("Senhas não combinam")
-        return make_password(new_password)
+        return new_password
 
     def validate_password(self, password):
         usuario = self.context['request'].user
@@ -41,3 +41,8 @@ class EditarUsuarioSerializer(serializers.ModelSerializer):
         if idade > 100:
             raise serializers.ValidationError("Idade maior que a permitida")
         return nascimento
+
+    def update(self, instance, validated_data):
+        if 'new_password' in validated_data:
+            validated_data['password'] = make_password(validated_data['new_password'])
+        return super().update(instance, validated_data)
