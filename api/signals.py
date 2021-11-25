@@ -5,7 +5,11 @@ from .models import Usuario, CidadesAtendimento, Diaria
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.dispatch import receiver
 from django.urls import reverse
+import environ
 
+env = environ.Env()
+
+env.read_env(env.str('ENV_PATH', './ediaristas/.env'))
 def usuario_cadastrado(sender, instance, created, **kwargs):
     if created:
         assunto = 'Cadastro realizado com sucesso'
@@ -49,9 +53,12 @@ def nova_oportunidade(sender, instance, **kwargs):
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     html_message_reset = render_to_string('email_resetar_senha.html',
-                                          {'link': 'http://127.0.0.1:8000{}?token={}'.
-                                          format(reverse('password_reset:reset-password-request'),
-                                          reset_password_token.key)})
+                                          {'link': '{}{}?token={}'.
+                                          format(
+                                            env('URL_FRONTEND'),
+                                            reverse('password_reset:reset-password-request'),
+                                            reset_password_token.key)}
+                                        )
     email_remetente = 'fagner.pinheiro@treinaweb.com.br'
     assunto = "Email para resetar sua senha no e-diaristas"
     corpo_email = ''

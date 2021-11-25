@@ -1,3 +1,4 @@
+from os import link
 from django.urls.base import reverse
 from rest_framework.views import APIView
 from ..hateoas import Hateoas
@@ -17,4 +18,8 @@ class Inicio(APIView):
         links.add_post('login', reverse('token_obtain_pair')),
         links.add_post('logout', reverse('logout-list')),
         links.add_get('usuario_logado', reverse('me-list')),
+        links.add_post('solicitar_alteracao_senha', 
+        reverse('password_reset:reset-password-request'))
+        links.add_post('confirmar_alteracao_senha', 
+        reverse('password_reset:reset-password-confirm'))
         return Response({"links": links.to_array()}, status=status_http.HTTP_200_OK)
