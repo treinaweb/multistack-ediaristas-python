@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'localflavor',
     'api',
     'rest_framework',
+    'django_rest_passwordreset',
     'rest_framework_simplejwt.token_blacklist',
     'django_q',
 ]
