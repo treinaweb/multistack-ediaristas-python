@@ -2,6 +2,9 @@ from django.db.models.signals import post_save
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from .models import Usuario, CidadesAtendimento, Diaria
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.dispatch import receiver
+from django.urls import reverse
 
 def usuario_cadastrado(sender, instance, created, **kwargs):
     if created:
@@ -42,6 +45,19 @@ def nova_oportunidade(sender, instance, **kwargs):
             lista_email.append(email['email'])
         send_mail(assunto, corpo_email, email_remetente, lista_email, 
         html_message=html_message_diarista)
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    html_message_reset = render_to_string('email_resetar_senha.html',
+                                          {'link': 'http://127.0.0.1:8000{}?token={}'.
+                                          format(reverse('password_reset:reset-password-request'),
+                                          reset_password_token.key)})
+    email_remetente = 'fagner.pinheiro@treinaweb.com.br'
+    assunto = "Email para resetar sua senha no e-diaristas"
+    corpo_email = ''
+    email_destino = [reset_password_token.user.email, ]
+    send_mail(assunto, corpo_email, email_remetente, email_destino, 
+    html_message=html_message_reset)
 
 
 post_save.connect(usuario_cadastrado, sender=Usuario)
