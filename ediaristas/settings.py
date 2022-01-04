@@ -14,6 +14,8 @@ from pathlib import Path
 from datetime import timedelta
 import environ
 import os
+import dj_database_url
+
 
 env = environ.Env()
 
@@ -138,16 +140,7 @@ WSGI_APPLICATION = 'ediaristas.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DATABASE_NAME'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': 3306,
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD')
-    }
-}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Email

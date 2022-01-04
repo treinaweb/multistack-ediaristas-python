@@ -10,6 +10,7 @@ charset-normalizer==2.0.3
 coreapi==2.3.3
 coreschema==0.0.4
 cryptography==35.0.0
+dj-database-url==0.5.0
 Django==3.2.5
 django-adminlte3==0.1.6
 django-bootstrap4==3.0.1
