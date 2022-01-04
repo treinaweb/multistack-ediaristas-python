@@ -41,9 +41,9 @@ class Usuario(AbstractUser):
     reputacao = models.FloatField(null=True, blank=False, default=5)
     chave_pix = models.CharField(null=True, blank=True, max_length=255)
     foto_documento = models.ImageField(null=True, upload_to=nome_arquivo_documento, 
-    validators=[validate_image_file_extension, ])
+    validators=[validate_image_file_extension, ], blank=True)
     foto_usuario = models.ImageField(null=True, upload_to=nome_arquivo_foto, 
-    validators=[validate_image_file_extension, ])
+    validators=[validate_image_file_extension, ], blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('nome_completo', 'cpf', 'telefone', 'tipo_usuario', 'reputacao',
