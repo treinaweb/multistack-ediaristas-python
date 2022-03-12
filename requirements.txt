@@ -39,7 +39,7 @@ msgpack==1.0.2
 mysqlclient==2.0.3
 packaging==21.0
 pagarme-python==4.0.1
-Pillow==8.3.2
+Pillow==9.0.1
 psycopg2==2.9.3
 pycparser==2.21
 PyJWT==2.1.0
